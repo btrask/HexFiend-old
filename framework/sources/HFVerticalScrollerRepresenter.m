@@ -53,15 +53,15 @@
 - (void)scrollByLines:(long long)linesInt {
     if (linesInt == 0) return;
     
-    long double lines = HFULToFP(linesInt);
-    
     HFController *controller = [self controller];
     HFASSERT(controller != NULL);
     HFFPRange displayedRange = [[self controller] displayedLineRange];
-    if (lines < 0) {
+    if (linesInt < 0) {
+        long double lines = HFULToFP(-linesInt);
         displayedRange.location -= MIN(lines, displayedRange.location);
     }
     else {
+        long double lines = HFULToFP(linesInt);
         long double availableLines = HFULToFP([controller totalLineCount]);
         displayedRange.location = MIN(availableLines - displayedRange.length, displayedRange.location + lines);
     }
