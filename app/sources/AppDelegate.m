@@ -11,6 +11,11 @@
 
 @implementation AppDelegate
 
+- (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)sender
+{
+    USE(sender);
+    return NO;
+}
 - (void)applicationDidFinishLaunching:(NSNotification *)note {
     USE(note);
 #if NDEBUG
