@@ -277,7 +277,7 @@ static HFBTreeNode *mutable_copy_node(HFBTreeNode *node, TreeDepth_t depth, HFBT
 }
 
 - (id)mutableCopyWithZone:(NSZone *)zone {
-    HFBTree *result = [[[self class] alloc] init];
+    HFBTree *result = [[[self class] allocWithZone:zone] init];
     result->depth = depth;
     HFBTreeNode *linkingHelper[MAX_DEPTH + 1];
     bzero(linkingHelper, (1 + depth) * sizeof *linkingHelper);
@@ -574,6 +574,7 @@ FORCE_STATIC_INLINE BOOL share_children(HFBTreeNode *node, ChildIndex_t childCou
         ChildIndex_t finalNeighborCount = totalChildren - finalMyCount;
         HFASSERT(finalNeighborCount < neighborCount);
         HFASSERT(finalMyCount > childCount);
+	USE(finalNeighborCount);
         ChildIndex_t amountToTransfer = finalMyCount - childCount;
         HFBTreeIndex lengthChange;
         if (isRightNeighbor) {
@@ -722,6 +723,7 @@ static HFBTreeLeaf *btree_descend(HFBTree *tree, struct SubtreeInfo_t *outDescen
         if (isForDelete) {
             HFBTreeNode *node = currentBranchOrLeaf;
             HFASSERT(node->subtreeLength > offsetForSubtree);
+	    USE(node);
         }
     }
     ASSERT_IS_LEAF(currentBranchOrLeaf);
@@ -911,12 +913,13 @@ static BOOL non_nulls_are_grouped_at_start(const id *ptr, NSUInteger count) {
 
 static void btree_recursive_check_integrity(HFBTree *tree, HFBTreeNode *branchOrLeaf, TreeDepth_t depth, HFBTreeNode **linkHelper) {
     HFASSERT(linkHelper[0] == branchOrLeaf->left);
-    if (linkHelper[0]) HFASSERT(linkHelper[0]->right == branchOrLeaf);
+    HFASSERT(!linkHelper[0] || linkHelper[0]->right == branchOrLeaf);
     linkHelper[0] = branchOrLeaf;
     
     if (depth == 0) {
         HFBTreeLeaf *leaf = CHECK_CAST(branchOrLeaf, HFBTreeLeaf);
         HFASSERT(non_nulls_are_grouped_at_start(leaf->children, BTREE_LEAF_ORDER));
+	USE(leaf);
     }
     else {
         HFBTreeBranch *branch = CHECK_CAST(branchOrLeaf, HFBTreeBranch);
@@ -931,6 +934,7 @@ static void btree_recursive_check_integrity(HFBTree *tree, HFBTreeNode *branchOr
         HFASSERT(childCount >= BTREE_NODE_MINIMUM_VALUE_COUNT);
     }
     HFASSERT(childCount <= BTREE_ORDER);
+    USE(childCount);
 }
 
 static HFBTreeIndex btree_recursive_check_integrity_of_cached_lengths(HFBTreeNode *branchOrLeaf) {

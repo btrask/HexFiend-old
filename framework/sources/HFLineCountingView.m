@@ -145,6 +145,7 @@ static inline int common_prefix_length(const char *a, const char *b) {
     int previousStringLength = (int)previousTextStorageCharacterCount;
     BOOL conversionResult = [[textStorage string] getCString:previousBuff maxLength:sizeof previousBuff encoding:NSASCIIStringEncoding];
     HFASSERT(conversionResult);
+    USE(conversionResult);
     while (linesRemaining--) {
         char formatString[64];
         [self getLineNumberFormatString:formatString length:sizeof formatString];

@@ -185,6 +185,8 @@ static inline HFByteSlice *findInitialSlice(HFBTree *btree, HFRange *inoutArrayR
     unsigned long long afterLength = [self length];
     
     HFASSERT(afterLength - beforeLength == [slice length]);
+    USE(beforeLength);
+    USE(afterLength);
 }
 
 - (void)deleteBytesInRange:(const HFRange)range {
@@ -234,6 +236,8 @@ static inline HFByteSlice *findInitialSlice(HFBTree *btree, HFRange *inoutArrayR
     
     unsigned long long afterLength = [self length];
     HFASSERT(beforeLength - afterLength == range.length);
+    USE(beforeLength);
+    USE(afterLength);
 }
 
 - (void)insertByteSlice:(HFByteSlice *)slice inRange:(HFRange)lrange {
@@ -248,7 +252,7 @@ static inline HFByteSlice *findInitialSlice(HFBTree *btree, HFRange *inoutArrayR
 }
 
 - mutableCopyWithZone:(NSZone *)zone {
-    HFBTreeByteArray *result = [[[self class] alloc] init];
+    HFBTreeByteArray *result = [[[self class] allocWithZone:zone] init];
     [result->btree release];
     result->btree = [btree mutableCopy];
     return result;

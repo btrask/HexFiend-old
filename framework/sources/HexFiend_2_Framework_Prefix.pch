@@ -47,7 +47,7 @@
 } while (0)
 
 #else
-#define REQUIRE_NOT_NULL(a)
+#define REQUIRE_NOT_NULL(a) USE(a)
 #define EXPECT_CLASS(e, c)
 #endif
 

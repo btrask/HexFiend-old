@@ -38,9 +38,6 @@ static inline BOOL invalidRange(HFRange range) { return range.location == ULLONG
  */
 
 static void computeFileOperations(HFByteArray *self, HFFileReference *reference, NSMutableArray *identity, NSMutableArray *external, NSMutableArray *internal) {
-#if NDEBUG
-    unsigned long long totalLength = [self length];
-#endif
     unsigned long long currentOffset = 0;
     FOREACH(HFByteSlice *, slice, [self byteSlices]) {
         unsigned long long length = [slice length];
@@ -60,9 +57,7 @@ static void computeFileOperations(HFByteArray *self, HFFileReference *reference,
         }
 	currentOffset += length;
     }
-#if NDEBUG
-    HFASSERT(currentOffset == totalLength);
-#endif
+    HFASSERT(currentOffset == [self length]);
 }
 
 #if ! NDEBUG

@@ -39,6 +39,7 @@
 - (HFByteArray *)subarrayWithRange:(HFRange)lrange {
     HFRange entireRange = HFRangeMake(0, [self length]);
     HFASSERT(HFRangeIsSubrangeOfRange(lrange, entireRange));
+    USE(entireRange);
     NSRange range;
     range.location = ll2l(lrange.location);
     range.length = ll2l(lrange.length);

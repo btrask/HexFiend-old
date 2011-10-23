@@ -104,6 +104,7 @@ static inline Class preferredByteArrayClass(void) {
 - (void)showViewForRepresenter:(HFRepresenter *)rep {
     NSView *repView = [rep view];
     HFASSERT([repView superview] == nil && [repView window] == nil);
+    USE(repView);
     [controller addRepresenter:rep];
     [layoutRepresenter addRepresenter:rep];
 }
@@ -323,8 +324,8 @@ static inline Class preferredByteArrayClass(void) {
     statusBarRepresenter = [[HFStatusBarRepresenter alloc] init];
     dataInspectorRepresenter = [[DataInspectorRepresenter alloc] init];
     
-    [[hexRepresenter view] setAutoresizingMask:NSViewHeightSizable];
-    [[asciiRepresenter view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [(NSView *)[hexRepresenter view] setAutoresizingMask:NSViewHeightSizable];
+    [(NSView *)[asciiRepresenter view] setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(lineCountingViewChangedWidth:) name:HFLineCountingRepresenterMinimumViewWidthChanged object:lineCountingRepresenter];
@@ -822,17 +823,20 @@ static inline Class preferredByteArrayClass(void) {
 - (NSRect)splitView:(NSSplitView *)splitView additionalEffectiveRectOfDividerAtIndex:(NSInteger)dividerIndex {
     USE(dividerIndex);
     HFASSERT(splitView == containerView);
+    USE(splitView);
     if (bannerDividerThumb) return [bannerDividerThumb convertRect:[bannerDividerThumb bounds] toView:containerView];
     else return NSZeroRect;
 }
 
 - (BOOL)splitView:(NSSplitView *)splitView canCollapseSubview:(NSView *)subview {
     HFASSERT(splitView == containerView);
+    USE(splitView);
     return subview == bannerView;
 }
 
 - (BOOL)splitView:(NSSplitView *)splitView shouldCollapseSubview:(NSView *)subview forDoubleClickOnDividerAtIndex:(NSInteger)dividerIndex {
     HFASSERT(splitView == containerView);
+    USE(splitView);
     USE(dividerIndex);
     if (subview == bannerView && subview != NULL) {
         [self hideBannerFirstThenDo:NULL];

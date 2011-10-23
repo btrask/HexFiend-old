@@ -162,6 +162,7 @@ NSString *const HFPrivateByteArrayPboardType = @"HFPrivateByteArrayPboardType";
 
 - (BOOL)moveDataWithProgressReportingToPasteboard:(NSPasteboard *)pboard forType:(NSString *)type {
     HFASSERT(pboard == pasteboard);
+    USE(pboard);
     BOOL result = NO;
     [self retain]; //resolving the pasteboard may release us, which deallocates us, which deallocates our tracker...make sure we survive through this function
     progressTracker = [[HFProgressTracker alloc] init];
@@ -203,6 +204,7 @@ NSString *const HFPrivateByteArrayPboardType = @"HFPrivateByteArrayPboardType";
 
 - (void)pasteboardChangedOwner:(NSPasteboard *)pboard {
     HFASSERT(pasteboard == pboard);
+    USE(pboard);
     [self tearDownPasteboardReferenceIfExists];
 }
 

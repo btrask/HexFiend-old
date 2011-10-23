@@ -113,6 +113,7 @@ static const NSTimeInterval HFCaretBlinkFrequency = 0.56;
 
 - (void)_blinkCaret:(NSTimer *)timer {
     HFASSERT(timer == caretTimer);
+    USE(timer);
     if (_hftvflags.caretVisible) {
         _hftvflags.caretVisible = NO;
         [self setNeedsDisplayInRect:lastDrawnCaretRect];
