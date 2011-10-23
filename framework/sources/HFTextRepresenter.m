@@ -92,7 +92,7 @@
     HFController *controller = [self controller];
     if (controller) {
         [view setFont:[controller font]];
-        [view setEditable:[controller editable]];
+        [view setEditable:[controller isEditable]];
         [self updateText];
     }
     else {
@@ -126,7 +126,7 @@
         [[self view] updateSelectionPulse];
     }
     if (bits & (HFControllerEditable)) {
-        [[self view] setEditable:[[self controller] editable]];
+        [[self view] setEditable:[[self controller] isEditable]];
     }
     if (bits & (HFControllerAntialias)) {
         [[self view] setShouldAntialias:[[self controller] shouldAntialias]];
@@ -228,7 +228,7 @@
 
 - (BOOL)canPasteFromPasteboard:(NSPasteboard *)pb {
     REQUIRE_NOT_NULL(pb);
-    if ([[self controller] editable]) {
+    if ([[self controller] isEditable]) {
         // we can paste if the pboard contains text or contains an HFByteArray
         return [HFPasteboardOwner unpackByteArrayFromPasteboard:pb] || [pb availableTypeFromArray:[NSArray arrayWithObject:NSStringPboardType]];
     }
@@ -239,7 +239,7 @@
     /* We can cut if we are editable, we have at least one byte selected, and we are not in overwrite mode */
     HFController *controller = [self controller];
     if ([controller inOverwriteMode]) return NO;
-    if (! [controller editable]) return NO;
+    if (! [controller isEditable]) return NO;
 
     FOREACH(HFRangeWrapper *, rangeWrapper, [controller selectedContentsRanges]) {
         if ([rangeWrapper HFRange].length > 0) return YES; //we have something selected

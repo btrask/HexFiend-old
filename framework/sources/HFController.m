@@ -677,7 +677,7 @@ static inline Class preferredByteArrayClass(void) {
     return bytesPerLine;
 }
 
-- (BOOL)editable {
+- (BOOL)isEditable {
     return _hfflags.editable && ! [byteArray changesAreLocked];
 }
 

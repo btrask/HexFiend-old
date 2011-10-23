@@ -299,7 +299,7 @@ You create an HFController via <tt>[[HFController alloc] init]</tt>.  After that
 */
 //@{
 /*! Get the editable property, which determines whether the user can edit the document. */
-- (BOOL)editable;
+- (BOOL)isEditable;
 
 /*! Set the editable property, which determines whether the user can edit the document. */
 - (void)setEditable:(BOOL)flag;
