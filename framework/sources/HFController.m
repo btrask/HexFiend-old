@@ -966,6 +966,11 @@ static inline Class preferredByteArrayClass(void) {
 
 - (void)pulseSelection {
     pulseSelectionStartTime = CFAbsoluteTimeGetCurrent();
+    if (pulseSelectionTimer != nil) {
+        /* FIXME: This is a hack to make the pulse window update when a new pulse starts before the old pulse is finished. */
+        pulseSelectionStartTime = 1.;
+        [self firePulseTimer:pulseSelectionTimer];
+    }
     if (pulseSelectionTimer == nil) {
         pulseSelectionTimer = [[NSTimer scheduledTimerWithTimeInterval:(1. / 30.) target:self selector:@selector(firePulseTimer:) userInfo:nil repeats:YES] retain];
     }
