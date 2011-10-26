@@ -259,7 +259,7 @@ static id floatingPointDescription(const unsigned char *bytes, NSUInteger length
             assert(sizeof temp.f == sizeof temp.i);
             temp.i = *(const uint32_t *)bytes;
             if (endianness != eNativeEndianness) temp.i = (uint32_t)reverse(temp.i, sizeof(float));
-            return [NSString stringWithFormat:@"%f", temp.f];
+            return [NSString stringWithFormat:@"%.16f", temp.f];
         }
         case sizeof(double):
         {
@@ -270,7 +270,7 @@ static id floatingPointDescription(const unsigned char *bytes, NSUInteger length
             assert(sizeof temp.f == sizeof temp.i);
             temp.i = *(const uint64_t *)bytes;
             if (endianness != eNativeEndianness) temp.i = reverse(temp.i, sizeof(double));
-            return [NSString stringWithFormat:@"%e", temp.f];
+            return [NSString stringWithFormat:@"%.24f", temp.f];
         }
         default: return nil;
     }
